@@ -1,0 +1,25 @@
+{
+  "name": "dbms-h.f.r.i---ntua-6th-semester",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alex1on/DBMS-H.F.R.I---NTUA-6th-Semester.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alex1on/DBMS-H.F.R.I---NTUA-6th-Semester/issues"
+  },
+  "homepage": "https://github.com/alex1on/DBMS-H.F.R.I---NTUA-6th-Semester#readme",
+  "dependencies": {
+    "connect-flash": "^0.1.1",
+    "express": "^4.18.1",
+    "nodemon": "^2.0.16"
+  }
+}
