@@ -1,12 +1,12 @@
 const { pool } = require('../DBMS-init');
 
-/* Show all Researchers */
-exports.getResearchers = (req, res, next) => {
+/* Show all Organizations */
+exports.getOrganizations = (req, res, next) => {
     pool.getConnection((err, conn) => {
-        conn.promise().query('SELECT * FROM researcher')
+        conn.promise().query('SELECT * FROM organization')
             .then(([rows, fields]) => {
-                res.render('researcher.ejs', {
-                    pageTitle: "Researchers Page",
+                res.render('organization.ejs', {
+                    pageTitle: "Organizations Page",
                     fields: rows
                 })
             })

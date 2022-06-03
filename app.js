@@ -8,6 +8,9 @@ const flash = require('connect-flash');
 const home = require('./routes/home');
 const fields = require('./routes/fields');
 const researcher = require('./routes/researcher');
+const project = require('./routes/project');
+const organization = require('./routes/organization');
+const program = require('./routes/program');
 
 const app = express();
 
@@ -23,6 +26,9 @@ app.use(flash());
 app.use('/', home);
 app.use('/fields', fields);
 app.use('/researcher', researcher);
+app.use('/project', project);
+app.use('/organization', organization);
+app.use('/program', organization);
 
 app.use((req, res, next) => { res.status(404).render('404.ejs', { pageTitle: '404'}) });
 

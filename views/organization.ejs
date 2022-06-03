@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: "Lato", sans-serif;
+    }
+
+    .sidenav {
+      width: 130px;
+      position: fixed;
+      z-index: 1;
+      top: 20px;
+      left: 10px;
+      background: #eee;
+      overflow-x: hidden;
+      padding: 8px 0;
+    }
+
+    .sidenav a {
+      padding: 6px 8px 6px 16px;
+      text-decoration: none;
+      font-size: 25px;
+      color: #2196F3;
+      display: block;
+    }
+
+    .sidenav a:hover {
+      color: #064579;
+    }
+
+    .main {
+      margin-left: 140px;
+      /* Same width as the sidebar + left position in px */
+      font-size: 28px;
+      /* Increased text to enable scrolling */
+      padding: 0px 10px;
+    }
+
+    @media screen and (max-height: 450px) {
+      .sidenav {
+        padding-top: 15px;
+      }
+
+      .sidenav a {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="sidenav">
+    <a href="file:///C:/Visual_Studio_Code/HTMLforDB/main_serious/HomePage.ejs#1">About</a>
+    <a href="https://www.w3schools.com/js/js_htmldom_animate.asp">Services</a>
+    <a href="#clients">Clients</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+
+
+  <div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Edit Student</h4>
+        </div>
+        <div class="modal-body">
+          <form id="modal-form">
+            <div style="text-align: center;">
+              <input type="text" name="Organization_ID" id="Organization_ID" readonly></br>
+              <input type="text" name="Organization_Name" id="Organization_Name"></br>
+              <input type="text" name="Abbreviation" id="Abbreviation"></br>
+              <input type="text" name="City" id="City"></br>
+              <input type="text" name="Street_Name" id="Street_Name"></br>
+              <input type="text" name="Street_Number" id="Street_Number"></br>
+              <input type="text" name="Zip_Code" id="Zip_Code"></br>
+              <input type="text" name="Organization_Type" id="Organization_Type">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" form="modal-form" class="btn btn-success">Update</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="main">
+    <h2>Auto Sidebar</h2>
+
+    <div class="container">
+      <div class="row" id="row">
+        <div class="col-md-12">
+          <div class="card" id="card-container">
+            <div class="card-body" id="card">
+              <% if (fields.length==0) { %>
+                <h1 style="margin-top: 5rem;">No fields found!</h1>
+                <% } else { %>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Name</th>
+                          <th>Abbreviation</th>
+                          <th>City</th>
+                          <th>Street_Name</th>
+                          <th>Street_Number</th>
+                          <th>Zip_Code</th>
+                          <th>Organization_Type</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% fields.forEach((fields, _)=> { %>
+                          <tr>
+                            <td>
+                              <%= fields.Organization_ID %>
+                            </td>
+                            <td>
+                              <%= fields.Organization_Name %>
+                            </td>
+                            <td>
+                              <%= fields.Abbreviation %>
+                            </td>
+                            <td>
+                              <%= fields.City %>
+                            </td>
+                            <td>
+                              <%= fields.Street_Name %>
+                            </td>
+                            <td>
+                              <%= fields.Street_Number %>
+                            </td>
+                            <td>
+                              <%= fields.Zip_Code %>
+                            </td>
+                            <td>
+                              <%= fields.Organization_Type %>
+                            </td>
+                            <td>
+                              <a type="button" onclick="setModalFields(this)" data-toggle="modal"
+                                data-id="<%= fields.Organization_ID %>" data-Title="<%= fields.Organization_Name %>"
+                                data-Amount="<%= fields.Abbreviation %>" data-Grade="<%= fields.City %>"
+                                data-Executive_ID="<%= fields.Street_Name %>" data-Organization_ID="<%= fields.Street_Number %>"
+                                data-Supervisor_ID="<%= fields.Zip_Code %>" data-Evaluator_ID="<%= fields.Organization_Type %>"
+                                data-target="#editModal">
+                                <i class="fa fa-edit"></i>
+                              </a>
+                            </td>
+                          </tr>
+                          <% }) %>
+                      </tbody>
+                    </table>
+                  </div>
+                  <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function setModalFields(row) {
+      document.getElementById("Organization_ID").value = row.dataset.Organization_ID;
+      document.getElementById("Organization_Name").value = row.dataset.Organization_Name;
+      document.getElementById("Abbreviation").value = row.dataset.Abbreviation;
+      document.getElementById("City").value = row.dataset.City;
+      document.getElementById("Street_Name").value = row.dataset.Street_Name;
+      document.getElementById("Street_Number").value = row.dataset.Street_Number;
+      document.getElementById("Zip_Code").value = row.dataset.Zip_Code;
+      document.getElementById("Organization_Type").value = row.dataset.Organization_Type;
+      document.getElementById("modal-form").action = "/organization/update/" + row.dataset.id;
+      document.getElementById("modal-form").method = "POST";
+    }
+  </script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelinet/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1ao+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXcrossorigin=" anonymous">
+  <script src="https://code.jquery.com/jquery-3.2slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rQpg6aAZGJwFDMVNA/GpGFF93hXpG5Kkcrossorigin=" anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/nbootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHJQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYcrossorigin=" anonymous"></script>
+
+  <script src="/assets/js/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/toasjs/latest/js/toastr.min.js"></script>
+
+</body>
+
+</html>
