@@ -28,18 +28,7 @@
                         <div style="text-align: center;">
                             <input type="text" name="Project_ID" id="Project_ID" readonly></br>
                             <input type="text" name="Title" id="Title"></br>
-                            <input type="text" name="Summary" id="Summary"></br>
-                            <input type="text" name="Starting_Date" id="Starting_Date"></br>
-                            <input type="text" name="Ending_Date" id="Ending_Date"></br>
-                            <input type="text" name="Amount" id="Amount"></br>
-                            <input type="text" name="Grade" id="Grade"></br>
-                            <input type="text" name="Evaluation_Date" id="Evaluation_Date">
-                            <input type="text" name="Executive_ID" id="Executive_ID"></br>
-                            <input type="text" name="Organization_ID" id="Organization_ID"></br>
-                            <input type="text" name="Supervisor_ID" id="Supervisor_ID"></br>
-                            <input type="text" name="Evaluator_ID" id="Evaluator_ID"></br>
-                            <input type="text" name="Program_ID" id="Program_ID">
-                          </div>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -53,6 +42,19 @@
 
     <%- include("includes/navbar.ejs")%>
 
+        <h1>Duration</h1>
+
+        <form action="/project">
+            <input type="checkbox" id="duration" name="duration" value="1">
+            <label for="duration"> 1-2</label><br>
+            <input type="checkbox" id="duration" name="duration" value="2">
+            <label for="duration"> 2-3 </label><br>
+            <input type="checkbox" id="duration" name="duration" value="3">
+            <label for="vehicle3"> 3-4 </label><br><br>
+            <input type="submit" value="Submit">
+        </form>
+
+
         <div class="container">
             <div class="row" id="row">
                 <div class="col-md-12">
@@ -65,20 +67,9 @@
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <th>Project_ID</th>
+                                                    <th>Project ID</th>
                                                     <th>Title</th>
                                                     <th>Summary</th>
-                                                    <th>Starting_Date</th>
-                                                    <th>Ending_Date</th>
-                                                    <th>Amount</th>
-                                                    <th>Grade</th>
-                                                    <th>Evaluation_Date</th>
-                                                    <th>Executive_ID</th>
-                                                    <th>Organization_ID</th>
-                                                    <th>Supervisor_ID</th>
-                                                    <th>Evaluator_ID</th>
-                                                    <th>Program_ID</th>
-                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -88,40 +79,12 @@
                                                             <%= fields.Project_ID %>
                                                         </td>
                                                         <td>
-                                                            <%= fields.Title %>
+                                                            <a href="/project/info?id=<%= fields.Project_ID %>">
+                                                                <%= fields.Title %>
+                                                            </a>
                                                         </td>
                                                         <td>
                                                             <%= fields.Summary %>
-                                                        </td>
-                                                        <td>
-                                                           <%= fields.Starting_Date %>
-                                                        </td>
-                                                        <td>
-                                                           <%= fields.Ending_Date %>
-                                                        </td>
-                                                        <td>
-                                                           <%= fields.Amount %>
-                                                        </td>
-                                                        <td>
-                                                          <%= fields.Grade %>
-                                                        </td>
-                                                        <td>
-                                                          <%= fields.Evaluation_Date %>
-                                                        </td>
-                                                        <td>
-                                                          <%= fields.Executive_ID %>
-                                                        </td>
-                                                        <td>
-                                                          <%= fields.Organization_ID %>
-                                                        </td>
-                                                        <td>
-                                                          <%= fields.Supervisor_ID %>
-                                                        </td>
-                                                        <td>
-                                                          <%= fields.Evaluator_ID %>
-                                                        </td>
-                                                        <td>
-                                                          <%= fields.Program_ID %>
                                                         </td>
                                                         <td>
                                                             <a type="button" onclick="setModalFields(this)"
@@ -129,19 +92,18 @@
                                                                 data-Project_ID="<%= fields.Project_ID %>"
                                                                 data-Title="<%= fields.Title %>"
                                                                 data-Summary="<%= fields.Summary %>"
-                                                                data-Stating_Date="<%= fields.Starting_Date %>"
-                                                                data-Ending_Date="<%= fields.Ending_Date %>"
-                                                                data-Amount="<%= fields.Amount %>"
-                                                                data-Grade="<%= fields.Grade %>"
-                                                                data-Evaluation_Date="<%= fields.Evaluation_Date %>"
-                                                                data-Executive_ID="<%= fields.Executive_ID %>"
-                                                                data-Organization_ID="<%= fields.Organization_ID %>"
-                                                                data-Supervisor_ID="<%= fields.Supervisor_ID %>"
-                                                                data-Evaluator_ID="<%= fields.Evaluator_ID %>"
-                                                                data-Program_ID="<%= fields.Program_ID %>"
                                                                 data-target="#editModal">
                                                                 <i class="fa fa-edit"></i>
                                                             </a>
+                                                            <form method="POST"
+                                                                action="/project/delete?id=<%= fields.Project_ID %>">
+
+                                                        <td>
+                                                            <button style="all: unset; cursor: pointer;"
+                                                                type="submit"><i class="fa fa-trash"></i></button>
+
+                                                        </td>
+                                                        </form>
                                                         </td>
                                                     </tr>
                                                     <% }) %>
@@ -149,6 +111,10 @@
                                         </table>
                                     </div>
                                     <% } %>
+                                        <td><a href="/project/create-project-page">
+                                                <button style="all: unset; cursor: pointer;" type="submit"><i
+                                                        class="fa fa-add "></i></button>&nbspAdd Project
+                                            </a></th>
                         </div>
                     </div>
                 </div>
@@ -160,16 +126,6 @@
                 document.getElementById("Project_ID").value = row.dataset.Project_ID;
                 document.getElementById("Title").value = row.dataset.Title;
                 document.getElementById("Summary").value = row.dataset.Summary;
-                document.getElementById("Starting_Date").value = row.dataset.Starting_Date;
-                document.getElementById("Ending_Date").value = row.dataset.Ending_Date;
-                document.getElementById("Amount").value = row.dataset.Amount;
-                document.getElementById("Grade").value = row.dataset.Grade;
-                document.getElementById("Evaluation_Date").value = row.dataset.Evaluation_Date;
-                document.getElementById("Executive_ID").value = row.dataset.Executive_ID;
-                document.getElementById("Organization_ID").value = row.dataset.Organization_ID;
-                document.getElementById("Supervisor_ID").value = row.dataset.Supervisor_ID;
-                document.getElementById("Evaluator_ID").value = row.dataset.Evaluator_ID;
-                document.getElementById("Program_ID").value = row.dataset.Program_ID;
                 document.getElementById("modal-form").action = "/fields/update/" + row.dataset.id;
                 document.getElementById("modal-form").method = "POST";
             }
