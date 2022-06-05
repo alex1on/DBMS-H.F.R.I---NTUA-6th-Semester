@@ -14,7 +14,7 @@
         table {
             text-align: center;
         }
-    
+
         .sidebar {
             height: 100%;
             /* 100% Full-height */
@@ -35,7 +35,7 @@
             transition: 0.5s;
             /* 0.5 second transition effect to slide in the sidebar */
         }
-    
+
         /* The sidebar links */
         .sidebar a {
             padding: 8px 8px 8px 32px;
@@ -45,12 +45,12 @@
             display: block;
             transition: 0.3s;
         }
-    
+
         /* When you mouse over the navigation links, change their color */
         .sidebar a:hover {
             color: #f1f1f1;
         }
-    
+
         /* Position and style the close button (top right corner) */
         .sidebar .closebtn {
             position: absolute;
@@ -59,7 +59,7 @@
             font-size: 36px;
             margin-left: 50px;
         }
-    
+
         /* The button used to open the sidebar */
         .openbtn {
             font-size: 20px;
@@ -69,35 +69,35 @@
             padding: 10px 15px;
             border: none;
         }
-    
+
         .openbtn:hover {
             background-color: #444;
         }
-    
+
         /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
         #main {
             transition: margin-left .5s;
             /* If you want a transition effect */
             padding: 20px;
         }
-    
+
         #main2 {
             transition: margin-left .5s;
             /* If you want a transition effect */
             padding: 20px;
         }
-    
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             margin: 0;
         }
-    
+
         .navbar {
             transition: margin-left .5s;
             overflow: hidden;
             background-color: rgb(8, 22, 127);
         }
-    
+
         .navbar a {
             float: left;
             font-size: 16px;
@@ -106,12 +106,12 @@
             padding: 14px 16px;
             text-decoration: none;
         }
-    
+
         .subnav {
             float: right;
             overflow: hidden;
         }
-    
+
         .subnav .subnavbtn {
             font-size: 16px;
             border: none;
@@ -122,12 +122,12 @@
             font-family: inherit;
             margin: 0;
         }
-    
+
         .navbar a:hover,
         .subnav:hover .subnavbtn {
             background-color: rgb(42, 167, 19);
         }
-    
+
         .subnav-content {
             display: none;
             position: absolute;
@@ -136,18 +136,18 @@
             width: 100%;
             z-index: 1;
         }
-    
+
         .subnav-content a {
             float: right;
             color: black;
             text-decoration: none;
         }
-    
+
         .subnav-content a:hover {
             background-color: #eee;
             color: black;
         }
-    
+
         .subnav:hover .subnav-content {
             display: block;
         }
@@ -161,9 +161,17 @@
             <div class="row" id="row">
                 <div class="col-md-12">
                     <form class="form-horizontal" name="field-form" action="/query3" method="POST">
+
                         <div class="form-group col-sm-3 mb-3">
-                            <label for="field_type">Field Type</label>
-                            <input type="text" class="form-control" name="field_type" placeholder="Enter Field">
+                            <label for="field_type">Choose a Field:</label>
+                            <select id="field_type" name="field_type">
+
+                                <% fields.forEach((fields, _)=> { %>
+                                    <option value="<%= fields.Field_type %>">
+                                        <%= fields.Field_type %>
+                                    </option>
+                                    <% }) %>
+                            </select>
                         </div>
                         <button type="submit" class="btn btn-primary btn-submit-custom">Submit</button>
                     </form>

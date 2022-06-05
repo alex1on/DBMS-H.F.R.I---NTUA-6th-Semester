@@ -87,3 +87,24 @@ exports.postCreateExecutive = (req, res, next) => {
             })
     })
 }
+
+exports.getExecutiveProjects = (req, res, next) => {
+    const id = req.query.id;
+
+    let messages = req.flash("messages");
+    if (messages.length == 0) messages = [];
+    pool.getConnection((err, conn) => {
+        var sqlQuery = `SELECT p.Project_ID, p.Title FROM Project p INNER JOIN Executive ex ON p.Executive_ID = ex.Executive_ID WHERE 
+        ex.Executive_ID = ${id}`;
+        conn.promise().query(sqlQuery)
+            .then(([rows, project]) => {
+                res.render('project.ejs', {
+                    pageTitle: "Executive Projects",
+                    project: rows,
+                    messages: messages
+                })
+            })
+            .then(() => pool.releaseConnection(conn))
+            .catch(err => console.log(err))
+    })
+}

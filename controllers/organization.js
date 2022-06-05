@@ -203,3 +203,23 @@ exports.postCreatePhone = (req, res, next) => {
             })
     })
 }
+
+exports.getOrganizationProjects = (req, res, next) => {
+    const id = req.query.id;
+
+    let messages = req.flash("messages");
+    if (messages.length == 0) messages = [];
+    pool.getConnection((err, conn) => {
+        var sqlQuery = `SELECT p.Project_ID, p.Title FROM Project p INNER JOIN Organization o ON o.Organization_ID = p.Organization_ID WHERE o.Organization_ID = ${id}`;
+        conn.promise().query(sqlQuery)
+            .then(([rows, project]) => {
+                res.render('project.ejs', {
+                    pageTitle: "Projects Belonging to the Organization",
+                    project: rows,
+                    messages: messages
+                })
+            })
+            .then(() => pool.releaseConnection(conn))
+            .catch(err => console.log(err))
+    })
+}

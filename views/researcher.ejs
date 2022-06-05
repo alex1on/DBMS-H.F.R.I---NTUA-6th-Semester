@@ -249,11 +249,22 @@
                                 data-date_of_entry="<%= researcher.Date_of_Entry %>" data-target="#editModal">
                                 <i class="fa fa-edit"></i>
                               </a>
+
+
+                            </td>
+                            <td>
                               <form method="POST" action="/researcher/delete?id=<%= researcher.Researcher_ID %>">
 
                                 <button style="all: unset; cursor: pointer;" type="submit"><i
                                     class="fa fa-trash"></i></button>
                               </form>
+                            </td>
+                            <td>
+
+                              <a href="/researcher/projects?id=<%= researcher.Researcher_ID %>">
+                                <button style="all: unset; cursor: pointer;" type="submit"><i
+                                    class="fa fa-folder-open"></i></button>
+                              </a>
                             </td>
                           </tr>
                           <% }) %>

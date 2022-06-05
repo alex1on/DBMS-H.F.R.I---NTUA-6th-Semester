@@ -100,7 +100,7 @@ exports.getShowProjects = (req, res, next) => {
         conn.promise().query(sqlQuery)
             .then(([rows, researcher]) => {
                 res.render('project.ejs', {
-                    pageTitle: "Project Funded by this Program",
+                    pageTitle: "Projects Funded by this Program",
                     project: rows,
                     messages: messages
                 })

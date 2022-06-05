@@ -107,3 +107,24 @@ exports.postCreateField = (req, res, next) => {
             })
     })
 }
+
+exports.getFieldProjects = (req, res, next) => {
+    const field = req.query.field;
+
+    let messages = req.flash("messages");
+    if (messages.length == 0) messages = [];
+    pool.getConnection((err, conn) => {
+        var sqlQuery = `SELECT p.Project_ID, p.Title FROM Project p INNER JOIN Describes d ON p.Project_ID = d.Project_ID INNER JOIN Fields f ON d.Field_type = f.Field_type WHERE f.Field_type = '${field}'`;
+        conn.promise().query(sqlQuery)
+            .then(([rows, project]) => {
+                res.render('project.ejs', {
+                    pageTitle: "Projects Associating to Field",
+                    project: rows,
+                    messages: messages
+                })
+            })
+            .then(() => pool.releaseConnection(conn))
+            .catch(err => console.log(err))
+    })
+}
+

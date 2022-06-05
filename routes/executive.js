@@ -7,5 +7,6 @@ router.post('/update/:id', executiveController.postUpdateExecutive);
 router.post('/delete', executiveController.postDeleteExecutive);
 router.get('/create-executive-page', executiveController.postCreatePage);
 router.post('/create-executive', executiveController.postCreateExecutive);
+router.get('/projects', executiveController.getExecutiveProjects);
 
 module.exports = router;

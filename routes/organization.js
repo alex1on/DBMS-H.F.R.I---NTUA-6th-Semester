@@ -13,6 +13,7 @@ router.post('/phones/update/:id', organizationController.postUpdatePhone);
 router.post('/phones/delete', organizationController.postDeletePhone);
 router.get('/phones/create-phone-page', organizationController.getCreatePhonePage);
 router.post('/phones/create-phone', organizationController.postCreatePhone);
+router.get('/projects', organizationController.getOrganizationProjects);
 
 
 module.exports = router;

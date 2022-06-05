@@ -10,7 +10,7 @@ exports.getResearchers = (req, res, next) => {
     let messages = req.flash("messages");
     if (messages.length == 0) messages = [];
     pool.getConnection((err, conn) => {
-        conn.promise().query('SELECT * FROM researcher')
+        conn.promise().query('SELECT Researcher_ID, First_Name, Last_Name, Sex, DATE_FORMAT(Date_of_Birth,"%Y-%m-%d") as Date_of_Birth, DATE_FORMAT(Date_of_Entry,"%Y-%m-%d") as Date_of_Entry, age, R_Organization_ID FROM researcher')
             .then(([rows, researcher]) => {
                 res.render('researcher.ejs', {
                     pageTitle: "Researchers Page",
@@ -104,5 +104,25 @@ exports.postCreateResearcher = (req, res, next) => {
                 console.log(err);
                 res.redirect('/researcher');
             })
+    })
+}
+
+exports.postResearcherProjects = (req, res, next) => {
+    const id = req.query.id;
+
+    let messages = req.flash("messages");
+    if (messages.length == 0) messages = [];
+    pool.getConnection((err, conn) => {
+        var sqlQuery = `SELECT p.Project_ID, p.Title FROM Researcher r INNER JOIN Works_On w ON r.Researcher_ID = w.Researcher_ID INNER JOIN Project p  ON w.Project_ID = p.Project_ID WHERE r.Researcher_ID = ${id}`;
+        conn.promise().query(sqlQuery)
+            .then(([rows, project]) => {
+                res.render('project.ejs', {
+                    pageTitle: "Projects of a Researcher",
+                    project: rows,
+                    messages: messages
+                })
+            })
+            .then(() => pool.releaseConnection(conn))
+            .catch(err => console.log(err))
     })
 }

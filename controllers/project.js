@@ -9,7 +9,7 @@ const { pool } = require('../DBMS-init');
 /* Show all Projects */
 exports.getProjects = (req, res, next) => {
     pool.getConnection((err, conn) => {
-        conn.promise().query('SELECT * FROM project')
+        conn.promise().query('SELECT Project_ID, Title, Summary, Amount, DATE_FORMAT(Starting_Date, "%Y-%m-%d") AS Starting_Date, DATE_FORMAT(Ending_Date,"%Y-%m-%d") AS Ending_Date, Program_ID, Executive_ID, Organization_ID, Supervisor_ID, Evaluator_ID, Grade, DATE_FORMAT(Evaluation_Date, "%Y-%m-%d") AS Evaluation_Date FROM Project')
             .then(([rows, project]) => {
                 res.render('project.ejs', {
                     pageTitle: "Projects Page",
@@ -139,7 +139,7 @@ exports.getShowFields = (req, res, next) => {
         conn.promise().query(sqlQuery)
             .then(([rows, fields]) => {
                 res.render('fields.ejs', {
-                    pageTitle: "Researchers Working on Project",
+                    pageTitle: "Project Fields",
                     fields: rows,
                     messages: messages
                 })
@@ -154,7 +154,7 @@ exports.getDeliverableInfo = (req, res, next) => {
     //const id = req.param('id');
     const id = req.query.id;
     pool.getConnection((err, conn) => {
-        var sqlQuery = `SELECT d.Deliverable_ID, d.Title, d.Delivery_Date, d.Summary, d.Delivery_Date, d.Project_ID FROM Deliverable d INNER JOIN Project p ON d.Project_ID = p.Project_ID WHERE p.Project_ID = ${id}`;
+        var sqlQuery = `SELECT d.Deliverable_ID, d.Title, DATE_FORMAT(d.Delivery_Date,"%Y-%m-%d") AS Delivery_Date, d.Summary, d.Project_ID FROM Deliverable d INNER JOIN Project p ON d.Project_ID = p.Project_ID WHERE p.Project_ID = ${id}`;
 
         conn.promise().query(sqlQuery).then(([rows, project]) => {
             console.log(sqlQuery);

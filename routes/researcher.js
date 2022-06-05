@@ -7,5 +7,6 @@ router.post('/update/:id', researcherController.postUpdateResearcher);
 router.post('/delete', researcherController.postDeleteResearcher);
 router.get('/create-researcher-page', researcherController.postCreatePage);
 router.post('/create-researcher', researcherController.postCreateResearcher);
+router.get('/projects', researcherController.postResearcherProjects);
 
 module.exports = router;
