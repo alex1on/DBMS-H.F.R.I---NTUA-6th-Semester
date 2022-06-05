@@ -21,16 +21,17 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit Deliverable</h4>
+                    <h4 class="modal-title">Edit phone</h4>
                 </div>
                 <div class="modal-body">
                     <form id="modal-form">
                         <div style="text-align: center;">
-                            <input type="text" name="deliverable_id" id="deliverable_id" readonly></br>
-                            <input type="text" name="title" id="title"></br>
-                            <input type="text" name="summary" id="summary"></br>
-                            <input type="text" name="delivery_date" id="delivery_date"></br>
-                            <input type="text" name="project_id" id="project_id" readonly></br>
+                            Old Phone
+                            <input type="text" name="phone_number" id="phone_number" readonly>
+                        </div><br>
+                        <div style="text-align: center;">
+                            New Phone
+                            <input type="text" name="new_phone_number" id="new_phone_number">
                         </div>
                     </form>
                 </div>
@@ -43,6 +44,7 @@
         </div>
     </div>
 
+
     <%- include("includes/navbar.ejs")%>
 
         <div class="container">
@@ -50,57 +52,41 @@
                 <div class="col-md-12">
                     <div class="card" id="card-container">
                         <div class="card-body" id="card">
-                            <% if (project.length==0) { %>
-                                <h1 style="margin-top: 5rem;">No Deliverables found!</h1>
+                            <% if (phones.length==0) { %>
+                                <h1 style="margin-top: 5rem;">No Phone Numbers found!</h1>
                                 <% } else { %>
                                     <div class="table-responsive">
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <th>ID</th>
-                                                    <th>Title</th>
-                                                    <th>Summary</th>
-                                                    <th>Delivery Date</th>
-                                                    <th>Project ID</th>
+                                                    <th>Phone Number</th>
+                                                    <th></th>
+                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <% project.forEach((project, _)=> { %>
+                                                <% phones.forEach((phones, _)=> { %>
                                                     <tr>
                                                         <td>
-                                                            <%= project.Deliverable_ID %>
+                                                            <%= phones.Phone_number %>
                                                         </td>
+
                                                         <td>
-                                                            <%= project.Title %>
-                                                        </td>
-                                                        <td>
-                                                            <%= project.Summary %>
-                                                        </td>
-                                                        <td>
-                                                            <%= project.Delivery_Date %>
-                                                        </td>
-                                                        <td>
-                                                            <%= project.Project_ID %>
-                                                        </td>
-                                                        <td>
-                                                            <a type="button" style="all: unset; cursor: pointer"
-                                                                onclick="setModalproject(this)" data-toggle="modal"
-                                                                data-deliverable_id="<%= project.Deliverable_ID %>"
-                                                                data-title="<%= project.Title %>"
-                                                                data-summary="<%= project.Summary %>"
-                                                                data-delivery_date="<%= project.Delivery_Date %>"
-                                                                data-project_id="<%= project.Project_ID %>"
-                                                                data-target="#editModal">
+                                                            <a type="button" style="all:unset ;cursor: pointer"
+                                                                onclick="setModalphones(this)" data-toggle="modal"
+                                                                data-phone_number="<%= phones.Phone_number %>"
+                                                                data-new_phone_number="<%= phones.Phone_number %>"
+                                                                data-target=" #editModal">
                                                                 <i class="fa fa-edit"></i>
                                                             </a>
                                                             <form method="POST"
-                                                                action="/project/deliverables/delete?id=<%= project.Deliverable_ID %>">
+                                                                action="/organization/phones/delete?phone=<%= phones.Phone_number %>">
                                                         <td>
                                                             <button style="all: unset; cursor: pointer;"
                                                                 type="submit"><i class="fa fa-trash"></i></button>
-                                                            </form>
 
                                                         </td>
+                                                        </form>
                                                         </td>
                                                     </tr>
                                                     <% }) %>
@@ -108,10 +94,12 @@
                                         </table>
                                     </div>
                                     <% } %>
-                                        <td><a href="/project/deliverables/create-deliverable-page">
+                                        <td><a href="/organization/phones/create-phone-page">
                                                 <button style="all: unset; cursor: pointer;" type="submit"><i
-                                                        class="fa fa-add "></i></button>&nbspAdd Deliverable
+                                                        class="fa fa-add "></i></button>&nbspAdd Phone
                                             </a></th>
+
+
                         </div>
                     </div>
                 </div>
@@ -119,13 +107,10 @@
         </div>
 
         <script>
-            function setModalproject(row) {
-                document.getElementById("deliverable_id").value = row.dataset.deliverable_id;
-                document.getElementById("title").value = row.dataset.title;
-                document.getElementById("summary").value = row.dataset.summary;
-                document.getElementById("delivery_date").value = row.dataset.delivery_date;
-                document.getElementById("project_id").value = row.dataset.project_id;
-                document.getElementById("modal-form").action = "/project/deliverables/update/" + row.deliverable_id;
+            function setModalphones(row) {
+                document.getElementById("phone_number").value = row.dataset.phone_number;
+                document.getElementById("new_phone_number").value = row.dataset.phone_number;
+                document.getElementById("modal-form").action = "/organization/phones/update/" + row.dataset.id;
                 document.getElementById("modal-form").method = "POST";
             }
         </script>

@@ -88,3 +88,24 @@ exports.postCreateProgram = (req, res, next) => {
             })
     })
 }
+
+exports.getShowProjects = (req, res, next) => {
+    const id = req.query.id;
+
+    let messages = req.flash("messages");
+    if (messages.length == 0) messages = [];
+    pool.getConnection((err, conn) => {
+        var sqlQuery = `SELECT p.Project_ID, p.Title FROM Project p INNER JOIN Program pr ON p.Program_ID = pr.Program_ID 
+        WHERE pr.Program_ID = ${id}`;
+        conn.promise().query(sqlQuery)
+            .then(([rows, researcher]) => {
+                res.render('project.ejs', {
+                    pageTitle: "Project Funded by this Program",
+                    project: rows,
+                    messages: messages
+                })
+            })
+            .then(() => pool.releaseConnection(conn))
+            .catch(err => console.log(err))
+    })
+}

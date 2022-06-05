@@ -7,5 +7,6 @@ router.post('/update/:id', programController.postUpdateProgram);
 router.post('/delete', programController.postDeleteProgram);
 router.get('/create-program-page', programController.postCreatePage);
 router.post('/create-program', programController.postCreateProgram);
+router.get('/projects', programController.getShowProjects);
 
 module.exports = router;

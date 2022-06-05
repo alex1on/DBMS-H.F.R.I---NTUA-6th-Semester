@@ -99,73 +99,107 @@ exports.postCreateOrganization = (req, res, next) => {
     })
 }
 
+exports.getShowResearchers = (req, res, next) => {
+    const id = req.query.id;
 
-exports.postUpdateField = (req, res, next) => {
-    const field = req.body.field_type;
-    const desc = req.body.field_description;
+    let messages = req.flash("messages");
+    if (messages.length == 0) messages = [];
+    pool.getConnection((err, conn) => {
+        var sqlQuery = `SELECT * FROM Researcher r INNER JOIN Organization o ON r.R_Organization_ID = o.Organization_ID 
+        WHERE o.Organization_ID = ${id}`;
+        conn.promise().query(sqlQuery)
+            .then(([rows, researcher]) => {
+                res.render('researcher.ejs', {
+                    pageTitle: "Researchers Working on Project",
+                    researcher: rows,
+                    messages: messages
+                })
+            })
+            .then(() => pool.releaseConnection(conn))
+            .catch(err => console.log(err))
+    })
+}
+
+exports.getShowPhones = (req, res, next) => {
+    const id = req.query.id;
+
+    let messages = req.flash("messages");
+    if (messages.length == 0) messages = [];
+    pool.getConnection((err, conn) => {
+        var sqlQuery = `SELECT ph.Phone_number FROM Phones ph INNER JOIN Organization o ON ph.Organization_ID = o.Organization_ID WHERE o.Organization_ID = ${id}`;
+        conn.promise().query(sqlQuery)
+            .then(([rows, phones]) => {
+                res.render('phones.ejs', {
+                    pageTitle: "Researchers Working on Project",
+                    phones: rows,
+                    messages: messages
+                })
+            })
+            .then(() => pool.releaseConnection(conn))
+            .catch(err => console.log(err))
+    })
+}
+
+
+exports.postUpdatePhone = (req, res, next) => {
+    const old_phone = req.body.phone_number;
+    const new_phone = req.body.new_phone_number;
 
     pool.getConnection((err, conn) => {
-        var sqlQuery = `UPDATE fields SET Field_Description = ? WHERE Field_type = '${field}'`;
+        var sqlQuery = `UPDATE Phones SET Phone_number = ? WHERE Phone_number = '${old_phone}'`;
 
-        conn.promise().query(sqlQuery, [desc]).then(() => {
+        conn.promise().query(sqlQuery, [new_phone]).then(() => {
             pool.releaseConnection(conn);
             console.log(sqlQuery);
-            res.redirect('/fields');
+            res.redirect('/organization');
         })
             .catch(err => {
                 console.log(err);
-                res.redirect('/');
+                res.redirect('/organization');
             })
     })
 }
 
-/* Controller to delete grade by ID from database */
-exports.postDeleteField = (req, res, next) => {
-    /* get id from params */
-    console.log(req);
-    const field = req.query.field;
-    console.log(field);
+exports.postDeletePhone = (req, res, next) => {
+    const phone = req.query.phone;
 
-    /* create the connection, execute query, flash respective message and redirect to grades route */
     pool.getConnection((err, conn) => {
-        var sqlQuery = `DELETE FROM fields WHERE Field_type = '${field}'`;
+        var sqlQuery = `DELETE FROM Phones WHERE Phone_number = '${phone}'`;
 
-        conn.promise().query(sqlQuery)
-            .then(() => {
-                console.log(sqlQuery);
-                pool.releaseConnection(conn);
-                res.redirect('/fields');
-            })
+        conn.promise().query(sqlQuery).then(() => {
+            pool.releaseConnection(conn);
+            console.log(sqlQuery);
+            res.redirect('/organization');
+        })
             .catch(err => {
                 console.log(err);
-                res.redirect('/fields');
+                res.redirect('/organization');
             })
     })
-
 }
 
-exports.postCreatePage = (req, res, next) => {
-    res.render('field_create.ejs', {
-        pageTitle: 'Create Field'
+
+exports.getCreatePhonePage = (req, res, next) => {
+    res.render('phone_create.ejs', {
+        pageTitle: 'Create Phone'
     });
 }
 
-exports.postCreateField = (req, res, next) => {
-    const field = req.body.field_type;
-    const summary = req.body.field_description;
+exports.postCreatePhone = (req, res, next) => {
+    const id = req.body.organization_id;
+    const phone = req.body.phone_number;
 
     pool.getConnection((err, conn) => {
-        var sqlQuery = `INSERT INTO fields (Field_type, Field_Description) VALUE(?, ?)`;
-        conn.promise().query(sqlQuery, [field, summary])
+        var sqlQuery = `INSERT INTO Phones (Organization_ID, Phone_number) VALUE(?, ?)`;
+        conn.promise().query(sqlQuery, [id, phone])
             .then(() => {
                 console.log(sqlQuery);
                 pool.releaseConnection(conn);
-                res.redirect('/fields');
+                res.redirect('/organization');
             })
             .catch(err => {
                 console.log(err);
-                res.redirect('/fields');
+                res.redirect('/organization');
             })
     })
 }
-

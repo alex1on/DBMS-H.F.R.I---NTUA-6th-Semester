@@ -29,19 +29,23 @@
                                         <table class="table">
                                             <thead>
                                                 <tr>
+                                                    <th>Project ID</th>
+                                                    <th>Title</th>
                                                     <th>Researcher ID</th>
                                                     <th>First Name</th>
                                                     <th>Last Name</th>
-                                                    <th>Sex</th>
-                                                    <th>age</th>
-                                                    <th>R Organization ID</th>
-                                                    <th>Date of Entry</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <% researcher.forEach((researcher, _)=> { %>
                                                     <tr>
+                                                        <td>
+                                                            <%= researcher.Project_ID %>
+                                                        </td>
+                                                        <td>
+                                                            <%= researcher.Title %>
+                                                        </td>
                                                         <td>
                                                             <%= researcher.Researcher_ID %>
                                                         </td>
@@ -51,19 +55,6 @@
                                                         <td>
                                                             <%= researcher.Last_Name %>
                                                         </td>
-                                                        <td>
-                                                           <%= researcher.Sex %>
-                                                        </td>
-                                                        <td>
-                                                           <%= researcher.age %>
-                                                        </td>
-                                                        <td>
-                                                           <%= researcher.R_Organization_ID %>
-                                                        </td>
-                                                        <td>
-                                                          <%= researcher.Date_of_Entry %>
-                                                        </td>
-
                                                     </tr>
                                                     <% }) %>
                                             </tbody>
