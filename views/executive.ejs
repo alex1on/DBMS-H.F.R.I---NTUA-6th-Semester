@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>
+        <%= pageTitle %>
+    </title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+</head>
+
+<body>
+
+    <div id="editModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Executive</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="modal-form">
+                        <div style="text-align: center;">
+                            <input type="text" name="executive_id" id="executive_id" readonly></br>
+                            <input type="text" name="first_name" id="first_name"></br>
+                            <input type="text" name="last_name" id="last_name"></br>
+                            <input type="text" name="sex" id="sex">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" form="modal-form" class="btn btn-success">Update</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <%- include("includes/navbar.ejs")%>
+
+
+        <div class="container">
+            <div class="row" id="row">
+                <div class="col-md-12">
+                    <div class="card" id="card-container">
+                        <div class="card-body" id="card">
+                            <% if (executive.length==0) { %>
+                                <h1 style="margin-top: 5rem;">No Executives found!</h1>
+                                <% } else { %>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Sex</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% executive.forEach((executive, _)=> { %>
+                                                    <tr>
+                                                        <td>
+                                                            <%= executive.Executive_ID %>
+                                                        </td>
+                                                        <td>
+                                                            <%= executive.First_Name %>
+                                                        </td>
+                                                        <td>
+                                                            <%= executive.Last_Name %>
+                                                        </td>
+                                                        <td>
+                                                            <%= executive.Sex %>
+                                                        </td>
+                                                        <!--<td>
+                                                            <%= executive.last_update %>
+                                                        </td> -->
+
+                                                        <td>
+                                                            <a type="button" style="all:unset ;cursor: pointer"
+                                                                onclick="setModalexecutive(this)" data-toggle="modal"
+                                                                data-executive_id="<%= executive.Executive_ID %>"
+                                                                data-first_name="<%= executive.First_Name %>"
+                                                                data-last_name="<%= executive.Last_Name %>"
+                                                                data-sex="<%= executive.Sex %>"
+                                                                data-target="#editModal">
+                                                                <i class="fa fa-edit"></i>
+                                                            </a>
+                                                            <form method="POST"
+                                                                action="/executive/delete?id=<%= executive.Executive_ID %>">
+                                                        <td>
+                                                            <button style="all: unset; cursor: pointer;"
+                                                                type="submit"><i class="fa fa-trash"></i></button>
+
+                                                        </td>
+                                                        </form>
+                                                        </td>
+                                                    </tr>
+                                                    <% }) %>
+                                            </tbody>
+
+
+                                        </table>
+                                    </div>
+                                    <% } %>
+                                        <td><a href="/executive/create-executive-page">
+                                                <button style="all: unset; cursor: pointer;" type="submit"><i
+                                                        class="fa fa-add "></i></button>&nbspAdd Executive
+                                            </a></th>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function setModalexecutive(row) {
+                document.getElementById("executive_id").value = row.dataset.executive_id;
+                document.getElementById("first_name").value = row.dataset.first_name;
+                document.getElementById("last_name").value = row.dataset.last_name;
+                document.getElementById("sex").value = row.dataset.sex;
+                document.getElementById("modal-form").action = "/executive/update/" + row.dataset.id;
+                document.getElementById("modal-form").method = "POST";
+            }
+        </script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+        <script src="/assets/js/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+</body>
+
+</html>

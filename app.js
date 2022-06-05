@@ -10,7 +10,14 @@ const fields = require('./routes/fields');
 const researcher = require('./routes/researcher');
 const project = require('./routes/project');
 const organization = require('./routes/organization');
+const executive = require('./routes/executive');
 const program = require('./routes/program');
+const query3 = require('./routes/query3');
+const query4 = require('./routes/query4');
+const query5 = require('./routes/query5');
+const query6 = require('./routes/query6');
+const query7 = require('./routes/query7');
+const query8 = require('./routes/query8');
 
 const app = express();
 
@@ -22,14 +29,27 @@ app.set('views', 'views');
 app.use(flash());
 
 // Routes TBC !
+app.use(session({
+    secret: "ThisShouldBeSecret",
+    resave: false,
+    saveUninitialized: false
+}))
+
 
 app.use('/', home);
 app.use('/fields', fields);
 app.use('/researcher', researcher);
 app.use('/project', project);
 app.use('/organization', organization);
-app.use('/program', organization);
+app.use('/executive', executive);
+app.use('/program', program);
+app.use('/query3', query3);
+app.use('/query4', query4);
+app.use('/query5', query5);
+app.use('/query6', query6);
+app.use('/query7', query7);
+app.use('/query8', query8);
 
-app.use((req, res, next) => { res.status(404).render('404.ejs', { pageTitle: '404'}) });
+app.use((req, res, next) => { res.status(404).render('404.ejs', { pageTitle: '404' }) });
 
 module.exports = app;

@@ -21,13 +21,13 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit Student</h4>
+                    <h4 class="modal-title">Edit Field</h4>
                 </div>
                 <div class="modal-body">
                     <form id="modal-form">
                         <div style="text-align: center;">
-                            <input type="text" name="Field_type" id="Field_type" readonly></br>
-                            <input type="text" name="Field_Description" id="Field_Description"></br>
+                            <input type="text" name="field_type" id="field_type" readonly></br>
+                            <input type="text" name="field_description" id="field_description"></br>
                             <input type="text" name="last_update" id="last_update">
                         </div>
                     </form>
@@ -41,7 +41,47 @@
         </div>
     </div>
 
+    <div id="insertModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Create Field</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="modal-form">
+                        <div style="text-align: center;">
+                            <input type="text" name="field_type_insert" id="field_type_insert"></br>
+                            <input type="text" name="field_description_insert" id="field_description_insert"></br>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" form="modal-form" class="btn btn-success">Insert</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <%- include("includes/navbar.ejs")%>
+
+        <h1>Show Checkboxes</h1>
+
+        <form action="/fields">
+            <input type="checkbox" id="field" name="field" value="Astrology">
+            <label for="field"> Astrology</label><br>
+            <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+            <label for="vehicle2"> 10+ researchers </label><br>
+            <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+            <label for="vehicle3"> More than 3 projects </label><br>
+            <input type="checkbox" id="vehicle4" name="vehicle4" value="Plane">
+            <label for="vehicle3"> Has a Plane </label><br><br>
+            <input type="submit" value="Submit">
+        </form>
+
 
         <div class="container">
             <div class="row" id="row">
@@ -49,15 +89,19 @@
                     <div class="card" id="card-container">
                         <div class="card-body" id="card">
                             <% if (fields.length==0) { %>
-                                <h1 style="margin-top: 5rem;">No Fields found!</h1>
+                                <h1 style="margin-top: 5rem;">No fields found!</h1>
                                 <% } else { %>
                                     <div class="table-responsive">
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <th>Field_type</th>
-                                                    <th>Field_Description</th>
-                                                    <th>last_update</th>
+                                                    <th>Field Type</th>
+                                                    <th>Field Description</th>
+                                                    <th></th>
+                                                    <th>
+                                                        Show Projects
+                                                    </th>
+                                                    <th></th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -70,25 +114,62 @@
                                                         <td>
                                                             <%= fields.Field_Description %>
                                                         </td>
-                                                        <td>
+                                                        <!--<td>
                                                             <%= fields.last_update %>
-                                                        </td>
+                                                        </td> -->
+
+                                                        <td><a href="/project">
+                                                                Show Projects
+                                                            </a></th>
                                                         <td>
-                                                            <a type="button" onclick="setModalFields(this)"
-                                                                data-toggle="modal"
-                                                                data-Field_type="<%= fields.Field_type %>"
-                                                                data-Field_Description="<%= fields.Field_Description %>"
+
+                                                        <td>
+                                                            <a type="button" style="all:unset ;cursor: pointer"
+                                                                onclick="setModalFields(this)" data-toggle="modal"
+                                                                data-field_type="<%= fields.Field_type %>"
+                                                                data-field_description="<%= fields.Field_Description %>"
                                                                 data-last_update="<%= fields.last_update %>"
                                                                 data-target="#editModal">
                                                                 <i class="fa fa-edit"></i>
                                                             </a>
+                                                            <form method="POST"
+                                                                action="/fields/delete?field=<%= fields.Field_type %>">
+                                                        <td>
+                                                            <button style="all: unset; cursor: pointer;"
+                                                                type="submit"><i class="fa fa-trash"></i></button>
+
+                                                        </td>
+                                                        </form>
                                                         </td>
                                                     </tr>
                                                     <% }) %>
+                                                        <!--
+                                                        <td><a type="button" style="all:unser;cursor: pointer"
+                                                                onclick="setInsertModalFields(this)" data-toggle="modal"
+                                                                data-field_type_insert="<%= fields.Field_type_insert %>"
+                                                                data-field_description_insert="<%= fields.Field_Description_insert %>"
+                                                                data-target="#insertModal">
+                                                                <i class="fa fa-add"></i> Add Field
+                                                            </a></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        -->
+
+
                                             </tbody>
+
+
                                         </table>
                                     </div>
                                     <% } %>
+                                        <td><a href="/fields/create-field-page">
+                                                <button style="all: unset; cursor: pointer;" type="submit"><i
+                                                        class="fa fa-add "></i></button>&nbspAdd Field
+                                            </a></th>
+
+
                         </div>
                     </div>
                 </div>
@@ -97,10 +178,19 @@
 
         <script>
             function setModalFields(row) {
-                document.getElementById("Field_type").value = row.dataset.Field_type;
-                document.getElementById("Field_Description").value = row.dataset.Field_Description;
+                document.getElementById("field_type").value = row.dataset.field_type;
+                document.getElementById("field_description").value = row.dataset.field_description;
                 document.getElementById("last_update").value = row.dataset.last_update;
                 document.getElementById("modal-form").action = "/fields/update/" + row.dataset.id;
+                document.getElementById("modal-form").method = "POST";
+            }
+        </script>
+
+        <script>
+            function setInsertModalFields(row) {
+                document.getElementById("field_type_insert").value = row.dataset.field_type_insert;
+                document.getElementById("field_description_insert").value = row.dataset.field_description
+                document.getElementById("modal-form").action = "/fields/create/" + row.dataset.field_type_insert;
                 document.getElementById("modal-form").method = "POST";
             }
         </script>

@@ -2,9 +2,10 @@
   "name": "dbms-h.f.r.i---ntua-6th-semester",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -19,7 +20,13 @@
   "homepage": "https://github.com/alex1on/DBMS-H.F.R.I---NTUA-6th-Semester#readme",
   "dependencies": {
     "connect-flash": "^0.1.1",
+    "custom-env": "^2.0.1",
+    "ejs": "^3.1.8",
     "express": "^4.18.1",
-    "nodemon": "^2.0.16"
-  }
+    "express-session": "^1.17.3",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.16",
+    "sessions": "^0.0.2-7"
+  },
+  "devDependencies": {}
 }

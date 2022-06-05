@@ -1,66 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      font-family: "Lato", sans-serif;
-    }
-
-    .sidenav {
-      width: 130px;
-      position: fixed;
-      z-index: 1;
-      top: 20px;
-      left: 10px;
-      background: #eee;
-      overflow-x: hidden;
-      padding: 8px 0;
-    }
-
-    .sidenav a {
-      padding: 6px 8px 6px 16px;
-      text-decoration: none;
-      font-size: 25px;
-      color: #2196F3;
-      display: block;
-    }
-
-    .sidenav a:hover {
-      color: #064579;
-    }
-
-    .main {
-      margin-left: 140px;
-      /* Same width as the sidebar + left position in px */
-      font-size: 28px;
-      /* Increased text to enable scrolling */
-      padding: 0px 10px;
-    }
-
-    @media screen and (max-height: 450px) {
-      .sidenav {
-        padding-top: 15px;
-      }
-
-      .sidenav a {
-        font-size: 18px;
-      }
-    }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <title>
+    <%= pageTitle %>
+  </title>
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 </head>
 
 <body>
-
-  <div class="sidenav">
-    <a href="file:///C:/Visual_Studio_Code/HTMLforDB/main_serious/HomePage.ejs#1">About</a>
-    <a href="https://www.w3schools.com/js/js_htmldom_animate.asp">Services</a>
-    <a href="#clients">Clients</a>
-    <a href="#contact">Contact</a>
-  </div>
-
-
 
   <div id="editModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -68,19 +21,19 @@
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Edit Student</h4>
+          <h4 class="modal-title">Edit Organization</h4>
         </div>
         <div class="modal-body">
           <form id="modal-form">
             <div style="text-align: center;">
-              <input type="text" name="Organization_ID" id="Organization_ID" readonly></br>
-              <input type="text" name="Organization_Name" id="Organization_Name"></br>
-              <input type="text" name="Abbreviation" id="Abbreviation"></br>
-              <input type="text" name="City" id="City"></br>
-              <input type="text" name="Street_Name" id="Street_Name"></br>
-              <input type="text" name="Street_Number" id="Street_Number"></br>
-              <input type="text" name="Zip_Code" id="Zip_Code"></br>
-              <input type="text" name="Organization_Type" id="Organization_Type">
+              <input type="text" name="organization_id" id="organization_id" readonly></br>
+              <input type="text" name="organization_name" id="organization_name"></br>
+              <input type="text" name="abbreviation" id="abbreviation"></br>
+              <input type="text" name="city" id="city"></br>
+              <input type="text" name="street_name" id="street_name"></br>
+              <input type="text" name="street_number" id="street_number"></br>
+              <input type="text" name="zip_code" id="zip_code"></br>
+              <input type="text" name="organization_type" id="organization_type">
             </div>
           </form>
         </div>
@@ -92,16 +45,15 @@
 
     </div>
   </div>
-  <div class="main">
-    <h2>Auto Sidebar</h2>
+  <%- include("includes/navbar.ejs")%>
 
     <div class="container">
       <div class="row" id="row">
         <div class="col-md-12">
           <div class="card" id="card-container">
             <div class="card-body" id="card">
-              <% if (fields.length==0) { %>
-                <h1 style="margin-top: 5rem;">No fields found!</h1>
+              <% if (organization.length==0) { %>
+                <h1 style="margin-top: 5rem;">No Organization found!</h1>
                 <% } else { %>
                   <div class="table-responsive">
                     <table class="table">
@@ -111,49 +63,58 @@
                           <th>Name</th>
                           <th>Abbreviation</th>
                           <th>City</th>
-                          <th>Street_Name</th>
-                          <th>Street_Number</th>
-                          <th>Zip_Code</th>
-                          <th>Organization_Type</th>
+                          <th>Street Name</th>
+                          <th>Street Number</th>
+                          <th>Zip Code</th>
+                          <th>Organization Type</th>
                           <th></th>
                         </tr>
                       </thead>
                       <tbody>
-                        <% fields.forEach((fields, _)=> { %>
+                        <% organization.forEach((organization, _)=> { %>
                           <tr>
                             <td>
-                              <%= fields.Organization_ID %>
+                              <%= organization.Organization_ID %>
                             </td>
                             <td>
-                              <%= fields.Organization_Name %>
+                              <%= organization.Organization_Name %>
                             </td>
                             <td>
-                              <%= fields.Abbreviation %>
+                              <%= organization.Abbreviation %>
                             </td>
                             <td>
-                              <%= fields.City %>
+                              <%= organization.City %>
                             </td>
                             <td>
-                              <%= fields.Street_Name %>
+                              <%= organization.Street_Name %>
                             </td>
                             <td>
-                              <%= fields.Street_Number %>
+                              <%= organization.Street_Number %>
                             </td>
                             <td>
-                              <%= fields.Zip_Code %>
+                              <%= organization.Zip_Code %>
                             </td>
                             <td>
-                              <%= fields.Organization_Type %>
+                              <%= organization.Organization_Type %>
                             </td>
                             <td>
-                              <a type="button" onclick="setModalFields(this)" data-toggle="modal"
-                                data-id="<%= fields.Organization_ID %>" data-Title="<%= fields.Organization_Name %>"
-                                data-Amount="<%= fields.Abbreviation %>" data-Grade="<%= fields.City %>"
-                                data-Executive_ID="<%= fields.Street_Name %>" data-Organization_ID="<%= fields.Street_Number %>"
-                                data-Supervisor_ID="<%= fields.Zip_Code %>" data-Evaluator_ID="<%= fields.Organization_Type %>"
-                                data-target="#editModal">
+                              <a type="button" style="all:unset ;cursor: pointer" onclick="setModalOrganization(this)"
+                                data-toggle="modal" data-organization_id="<%= organization.Organization_ID %>"
+                                data-organization_name="<%= organization.Organization_Name %>"
+                                data-abbreviation="<%= organization.Abbreviation %>"
+                                data-city="<%= organization.City %>" data-street_name="<%= organization.Street_Name %>"
+                                data-street_number="<%= organization.Street_Number %>"
+                                data-zip_code="<%= organization.Zip_Code %>"
+                                data-organization_type="<%= organization.Organization_Type %>" data-target="#editModal">
                                 <i class="fa fa-edit"></i>
                               </a>
+                              <form method="POST" action="/organization/delete?id=<%= organization.Organization_ID %>">
+                            <td>
+                              <button style="all: unset; cursor: pointer;" type="submit"><i
+                                  class="fa fa-trash"></i></button>
+
+                            </td>
+                            </form>
                             </td>
                           </tr>
                           <% }) %>
@@ -161,37 +122,43 @@
                     </table>
                   </div>
                   <% } %>
+                    <td><a href="/organization/create-organization-page">
+                        <button style="all: unset; cursor: pointer;" type="submit"><i
+                            class="fa fa-add "></i></button>&nbspAdd Organization
+                      </a></th>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+    </div>
 
-  <script>
-    function setModalFields(row) {
-      document.getElementById("Organization_ID").value = row.dataset.Organization_ID;
-      document.getElementById("Organization_Name").value = row.dataset.Organization_Name;
-      document.getElementById("Abbreviation").value = row.dataset.Abbreviation;
-      document.getElementById("City").value = row.dataset.City;
-      document.getElementById("Street_Name").value = row.dataset.Street_Name;
-      document.getElementById("Street_Number").value = row.dataset.Street_Number;
-      document.getElementById("Zip_Code").value = row.dataset.Zip_Code;
-      document.getElementById("Organization_Type").value = row.dataset.Organization_Type;
-      document.getElementById("modal-form").action = "/organization/update/" + row.dataset.id;
-      document.getElementById("modal-form").method = "POST";
-    }
-  </script>
+    <script>
+      function setModalOrganization(row) {
+        document.getElementById("organization_id").value = row.dataset.organization_id;
+        document.getElementById("organization_name").value = row.dataset.organization_name;
+        document.getElementById("abbreviation").value = row.dataset.abbreviation;
+        document.getElementById("city").value = row.dataset.city;
+        document.getElementById("street_name").value = row.dataset.street_name;
+        document.getElementById("street_number").value = row.dataset.street_number;
+        document.getElementById("zip_code").value = row.dataset.zip_code;
+        document.getElementById("organization_type").value = row.dataset.organization_type;
+        document.getElementById("modal-form").action = "/organization/update/" + row.dataset.id;
+        document.getElementById("modal-form").method = "POST";
+      }
+    </script>
 
-  <link rel="stylesheet" href="https://cdn.jsdelinet/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1ao+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXcrossorigin=" anonymous">
-  <script src="https://code.jquery.com/jquery-3.2slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rQpg6aAZGJwFDMVNA/GpGFF93hXpG5Kkcrossorigin=" anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/nbootstrap@4.0.0/dist/js/bootstrap.min.js"
-    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHJQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYcrossorigin=" anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"></script>
 
-  <script src="/assets/js/jquery.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/toasjs/latest/js/toastr.min.js"></script>
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
 </body>
 
