@@ -11,6 +11,153 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="assets/css/styles.css">
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+  <style>
+    table {
+      text-align: center;
+    }
+
+    .sidebar {
+      height: 100%;
+      /* 100% Full-height */
+      width: 0;
+      /* 0 width - change this with JavaScript */
+      position: fixed;
+      /* Stay in place */
+      z-index: 1;
+      /* Stay on top */
+      top: 0;
+      left: 0;
+      background-color: #111;
+      /* Black*/
+      overflow-x: hidden;
+      /* Disable horizontal scroll */
+      padding-top: 60px;
+      /* Place content 60px from the top */
+      transition: 0.5s;
+      /* 0.5 second transition effect to slide in the sidebar */
+    }
+
+    /* The sidebar links */
+    .sidebar a {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 17px;
+      color: #818181;
+      display: block;
+      transition: 0.3s;
+    }
+
+    /* When you mouse over the navigation links, change their color */
+    .sidebar a:hover {
+      color: #f1f1f1;
+    }
+
+    /* Position and style the close button (top right corner) */
+    .sidebar .closebtn {
+      position: absolute;
+      top: 0;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
+    }
+
+    /* The button used to open the sidebar */
+    .openbtn {
+      font-size: 20px;
+      cursor: pointer;
+      background-color: #111;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+    }
+
+    .openbtn:hover {
+      background-color: #444;
+    }
+
+    /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+    #main {
+      transition: margin-left .5s;
+      /* If you want a transition effect */
+      padding: 20px;
+    }
+
+    #main2 {
+      transition: margin-left .5s;
+      /* If you want a transition effect */
+      padding: 20px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin: 0;
+    }
+
+    .navbar {
+      transition: margin-left .5s;
+      overflow: hidden;
+      background-color: rgb(8, 22, 127);
+    }
+
+    .navbar a {
+      float: left;
+      font-size: 16px;
+      color: rgb(215, 235, 32);
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    .subnav {
+      float: right;
+      overflow: hidden;
+    }
+
+    .subnav .subnavbtn {
+      font-size: 16px;
+      border: none;
+      outline: none;
+      color: rgb(255, 255, 255);
+      padding: 14px 16px;
+      background-color: inherit;
+      font-family: inherit;
+      margin: 0;
+    }
+
+    .navbar a:hover,
+    .subnav:hover .subnavbtn {
+      background-color: rgb(42, 167, 19);
+    }
+
+    .subnav-content {
+      display: none;
+      position: absolute;
+      left: 0;
+      background-color: purple;
+      width: 100%;
+      z-index: 1;
+    }
+
+    .subnav-content a {
+      float: right;
+      color: black;
+      text-decoration: none;
+    }
+
+    .subnav-content a:hover {
+      background-color: #eee;
+      color: black;
+    }
+
+    .subnav:hover .subnav-content {
+      display: block;
+    }
+
+    table {
+      text-align: center;
+    }
+  </style>
+
 </head>
 
 <body>
@@ -64,7 +211,7 @@
                           <th>Last Name</th>
                           <th>Sex</th>
                           <th>Age</th>
-                          <th>OrgID</th>
+                          <th>Organization ID</th>
                           <th>Date of Entry</th>
                           <th></th>
                         </tr>
@@ -102,11 +249,11 @@
                                 data-date_of_entry="<%= researcher.Date_of_Entry %>" data-target="#editModal">
                                 <i class="fa fa-edit"></i>
                               </a>
-                                <form method="POST" action="/researcher/delete?id=<%= researcher.Researcher_ID %>">
+                              <form method="POST" action="/researcher/delete?id=<%= researcher.Researcher_ID %>">
 
-                                  <button style="all: unset; cursor: pointer;" type="submit"><i
-                                      class="fa fa-trash"></i></button>
-                                </form>
+                                <button style="all: unset; cursor: pointer;" type="submit"><i
+                                    class="fa fa-trash"></i></button>
+                              </form>
                             </td>
                           </tr>
                           <% }) %>

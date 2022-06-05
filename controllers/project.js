@@ -1,3 +1,4 @@
+const { type } = require('express/lib/response');
 const { pool } = require('../DBMS-init');
 
 // Delete DONE
@@ -226,5 +227,64 @@ exports.postCreateDeliverable = (req, res, next) => {
                 console.log(err);
                 res.redirect('/project');
             })
+    })
+}
+
+exports.getFilters = (req, res, next) => {
+    pool.getConnection((err, conn) => {
+        conn.promise().query('SELECT * FROM executive')
+            .then(([rows, executive]) => {
+                res.render('project_filters.ejs', {
+                    pageTitle: 'Choose Project Filters',
+                    executive: rows
+                });
+            })
+            .then(() => pool.releaseConnection(conn))
+            .catch(err => console.log(err))
+    })
+
+}
+
+exports.getFilteredProjects = (req, res, next) => {
+    const duration = req.body.duration;
+    const date = req.body.date;
+    const exec = req.body.executive;
+
+    if ((duration == "") && (date == "") && (exec == "")) {
+        res.redirect('/project');
+    }
+    else if (duration == "" && date == "") {
+        var sqlQuery = `SELECT * FROM Project WHERE Executive_ID = ${exec}`;
+    }
+    else if (date == "" && exec == "") {
+        var sqlQuery = `SELECT * FROM Project WHERE Duration = ${duration}`;
+    }
+    else if (duration == "" && exec == "") {
+        var sqlQuery = `SELECT * FROM Project WHERE Starting_Date > ${date}`;
+    }
+    else if (duration == "") {
+        var sqlQuery = `SELECT * FROM Project WHERE Starting_Date > ${date} AND Executive_ID = ${exec}`;
+    }
+    else if (date == "") {
+        var sqlQuery = `SELECT * FROM Project WHERE Duration = ${duration} AND Executive_ID = ${exec}`;
+    }
+    else if (exec == "") {
+        var sqlQuery = `SELECT * FROM Project WHERE Starting_Date > ${date} AND Duration =  ${duration}`;
+    }
+    else {
+        var sqlQuery = `SELECT * FROM Project WHERE Starting_Date > ${date} AND Executive_ID = ${exec} AND Duration = ${duration}`;
+    }
+
+    pool.getConnection((err, conn) => {
+        conn.promise().query(sqlQuery)
+            .then(([rows, project]) => {
+                console.log(sqlQuery);
+                res.render('project.ejs', {
+                    pageTitle: "Projects Page",
+                    project: rows
+                })
+            })
+            .then(() => pool.releaseConnection(conn))
+            .catch(err => console.log(err))
     })
 }

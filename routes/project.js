@@ -14,5 +14,8 @@ router.get('/create-project-page', projectController.postCreatePage);
 router.post('/create-project', projectController.postCreateProject);
 router.get('/researchers', projectController.getShowResearchers);
 router.get('/fields', projectController.getShowFields);
+router.get('/filter', projectController.getFilters);
+router.post('/filtered', projectController.getFilteredProjects);
+
 
 module.exports = router;
